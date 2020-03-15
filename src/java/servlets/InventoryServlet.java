@@ -70,6 +70,7 @@ public class InventoryServlet extends HttpServlet {
         //processRequest(request, response);
         UserDB udb = new UserDB();
         //ItemDB idb = new ItemDB();
+        
         User loggedIn = null;
         HttpSession session = request.getSession();
         try {
@@ -79,6 +80,8 @@ public class InventoryServlet extends HttpServlet {
         }
         List<Item> itemList = loggedIn.getItemList();
         request.setAttribute("itemList", itemList);
+        
+        
         getServletContext().getRequestDispatcher("/WEB-INF/inventory.jsp").forward(request, response);
     }
 
@@ -94,6 +97,7 @@ public class InventoryServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
+        
         ItemDB idb = new ItemDB();
         CategoryDB cdb = new CategoryDB();
         UserDB udb = new UserDB();
@@ -145,7 +149,7 @@ public class InventoryServlet extends HttpServlet {
                 request.setAttribute("invalidItem", "Added successfully!");
             } catch (HomeInventoryDBException ex) {
                 Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
-                request.setAttribute("invalidItem", "Error, unsuccessful!");
+                request.setAttribute("invalidItem", "Failed to add!");
             }
             
         }

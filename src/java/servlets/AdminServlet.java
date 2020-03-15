@@ -17,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import services.UserService;
 
 /**
  *
@@ -63,15 +64,19 @@ public class AdminServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        UserDB udb = new UserDB();
+        UserService uc = new UserService();
+        //UserDB udb = new UserDB();
         List<User> userList = null;
         try {
-            userList = udb.getAll();
-        } catch (HomeInventoryDBException ex) {
+            userList = uc.getAll();
+        
+        } catch (Exception ex) {
             Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        request.setAttribute("addoredit", "Add");
+        
         request.setAttribute("userList", userList);
+        request.setAttribute("addorsave", "Add");
+        
         getServletContext().getRequestDispatcher("/WEB-INF/admin.jsp").forward(request, response);
     }
 
@@ -87,9 +92,10 @@ public class AdminServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
+        UserService uc = new UserService();
         String action = request.getParameter("action");
         UserDB udb = new UserDB();
-        User selectedUser = null;
+        User selectedUser = null ;
         if(action.equals("view"))
         {
             
@@ -100,16 +106,85 @@ public class AdminServlet extends HttpServlet {
                 Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             request.setAttribute("selectedUser", selectedUser);
+            
+            
+        //UserDB udb = new UserDB();
+        List<User> userList = null;
+        try {
+            userList = uc.getAll();
+            
+        } catch (Exception ex) {
+            Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        request.setAttribute("userList", userList);
+        request.setAttribute("addorsave", "Save");
+        request.setAttribute("readonly", "readonly");
+        getServletContext().getRequestDispatcher("/WEB-INF/admin.jsp").forward(request, response);
         }
         else
             if(action.equals("delete"))
             {
+            
+            
+            String selectUser = request.getParameter("selectedUser");
+            
+            int deleted;
+            try {
+                selectedUser = uc.get(selectUser);
+                deleted = uc.delete(selectedUser);
+                if(deleted == 0)
+                {
+                    request.setAttribute("message", "Cannot delete admins!");
+                }
+                else
+                {
+                    request.setAttribute("message", "Delete successfully!");
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
+                request.setAttribute("message", "Failed to delete!");
+            }
                 
+                request.setAttribute("selectedUser", null);
+                //request.setAttribute("addorsave", "Add");
+                doGet(request,response);
+            
             }
         else
+                if(action.equals("Add"))
             {
-                
+                String username = request.getParameter("username");
+                String password = request.getParameter("password");
+                String fname = request.getParameter("firstname");
+                String lname = request.getParameter("lastname");
+                String email = request.getParameter("email");
+            try {
+                uc.insert(username, password, fname, lname,email);
+                request.setAttribute("message", "Added successfully!");
+            } catch (Exception ex) {
+                Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
+                request.setAttribute("message", "Failed to add!");
             }
+            doGet(request,response);
+            }
+        else
+                {
+                String username = request.getParameter("username");
+                String password = request.getParameter("password");
+                String fname = request.getParameter("firstname");
+                String lname = request.getParameter("lastname");
+                String email = request.getParameter("email");
+            try {
+                uc.update(username, password, fname, lname, email);
+                request.setAttribute("message", "Updated successfully!");
+            } catch (Exception ex) {
+                Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
+                request.setAttribute("message", "Failed to update!");
+            }
+                    doGet(request,response);
+                }
+        
     }
 
     /**

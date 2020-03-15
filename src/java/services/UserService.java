@@ -29,14 +29,15 @@ public class UserService {
         return userDB.update(user);
     }
 
-    public int delete(String username) throws Exception {
-        User deletedUser = userDB.getUser(username);
-        // do not allow the admin to be deleted
+    public int delete(User user) throws Exception {
         
-        if (deletedUser.getUsername().equalsIgnoreCase("admin")) {
+        // do not allow the admin to be deleted
+        int delete;
+        if (user.getUsername().substring(0,5).equalsIgnoreCase("admin")) {
             return 0;
         }
-        return userDB.delete(deletedUser);
+        delete= userDB.delete(user);
+         return delete;
     }
 
     public int insert(String username, String password, String firstname, String lastname, String email) throws Exception {
