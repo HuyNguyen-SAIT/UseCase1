@@ -63,21 +63,21 @@ public class Item implements Serializable {
         this.price = price;
     }
 
-    public Item(Integer itemID) {
+    public Item(int itemID) {
         this.itemID = itemID;
     }
 
-    public Item(Integer itemID, String itemName, double price) {
+    public Item(int itemID, String itemName, double price) {
         this.itemID = itemID;
         this.itemName = itemName;
         this.price = price;
     }
 
-    public Integer getItemID() {
+    public int getItemID() {
         return itemID;
     }
 
-    public void setItemID(Integer itemID) {
+    public void setItemID(int itemID) {
         this.itemID = itemID;
     }
 

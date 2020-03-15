@@ -8,6 +8,8 @@ package dataaccess;
 import database.DBUtil;
 import database.HomeInventoryDBException;
 import domain.Item;
+import domain.User;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,12 +39,19 @@ public class ItemDB {
         }
     }    
     
-    public List<Item> getAll() throws HomeInventoryDBException {
+    public List<Item> getAll(User owner) throws HomeInventoryDBException {
         EntityManager em = DBUtil.getEmFactory().createEntityManager();
         try {
             List<Item> items = em.createNamedQuery("Item.findAll", Item.class).getResultList();
-            
-            return items;                
+            ArrayList<Item> userItems= new ArrayList<>();
+            for(int i=0; i<items.size();i++)
+            {
+                if(items.get(i).getOwner().getUsername().equals(owner.getUsername()))
+                {
+                   userItems.add(items.get(i));
+                }
+            }
+            return userItems;                
         } finally {
             em.close();
         }
@@ -50,7 +59,7 @@ public class ItemDB {
     
     public Item getItem(int itemID) throws HomeInventoryDBException {
         EntityManager em = DBUtil.getEmFactory().createEntityManager();
-        Item item = null;
+        Item item;
         try {
             //items = em.createNamedQuery("Item.findByItemID",  Item.class).getResultList();
             item = em.find(Item.class, itemID);
@@ -59,6 +68,8 @@ public class ItemDB {
             em.close();
         }
     }
+    
+    
     
     public int insert(Item item) throws HomeInventoryDBException {
         EntityManager em = DBUtil.getEmFactory().createEntityManager();
