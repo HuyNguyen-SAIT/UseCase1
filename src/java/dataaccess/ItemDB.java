@@ -41,7 +41,20 @@ public class ItemDB {
         EntityManager em = DBUtil.getEmFactory().createEntityManager();
         try {
             List<Item> items = em.createNamedQuery("Item.findAll", Item.class).getResultList();
+            
             return items;                
+        } finally {
+            em.close();
+        }
+    }
+    
+    public Item getItem(int itemID) throws HomeInventoryDBException {
+        EntityManager em = DBUtil.getEmFactory().createEntityManager();
+        Item item = null;
+        try {
+            //items = em.createNamedQuery("Item.findByItemID",  Item.class).getResultList();
+            item = em.find(Item.class, itemID);
+            return item;                
         } finally {
             em.close();
         }

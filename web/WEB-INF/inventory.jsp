@@ -31,6 +31,9 @@
             <th>
                 Price
             </th>
+            <th>
+                Delete
+            </th>
             </tr>
             <tr>
                 <td> 
@@ -46,9 +49,9 @@
                 </td>
                 
                 <td>
-                    <input type="hidden" value="${item.itemName}" >
-                    
-                    <input type="button" value="Delete">  
+                    <input type="submit" value="Delete"> 
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="selectedItem" value="${item.itemID}"> 
                 </td>
             </tr>
       
@@ -62,28 +65,34 @@
             <tr>
                 <td>
                     Category:<select name="type">
-  <option name="kitchen">Kitchen</option>
-  <option name="living room">Living Room</option>
-  <option name="garage">Garage</option>
-  <option name="bedroom">Bedroom</option>
+  <option value="1">Kitchen</option>
+  <option value="2">Bathroom</option>
+  <option value="3">Living room</option>
+  <option value="4">Basement</option>
+  <option value="5">Bedroom</option>
+  <option value="6">Garage</option>
+  <option value="7">Office</option>
+  <option value="8">Utility room</option>
+  <option value="9">Storage</option>
+  <option value="10">Other</option>
 </select> 
                 </td>
             </tr>
             <tr>
                 <td>
-                    Item name: <input type="text" name="itemAddName" value="">
+                    Item name: <input type="text" required name="itemAddName">
                 </td>
             </tr>
 
             <tr>
                 <td>
-                    Price: <input type="text" name="itemAddPrice" value="">
+                    Price: <input type="number" required name="itemAddPrice" value="0" min="0" step="0.01">
                 </td>
                 
             </tr>   
             <tr>
                 <td>
-                    <input type="submit" value="Add"><br/>
+                    <input type="submit" name="action" value="Save"><br/>
                     ${invalidItem}
                 </td>
             </tr>

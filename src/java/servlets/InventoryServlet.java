@@ -5,12 +5,15 @@
  */
 package servlets;
 
+import dataaccess.CategoryDB;
 import dataaccess.ItemDB;
 import dataaccess.UserDB;
 import database.HomeInventoryDBException;
+import domain.Category;
 import domain.Item;
 import domain.User;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,7 +69,7 @@ public class InventoryServlet extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         UserDB udb = new UserDB();
-        ItemDB idb = new ItemDB();
+        //ItemDB idb = new ItemDB();
         User loggedIn = null;
         HttpSession session = request.getSession();
         try {
@@ -91,6 +94,74 @@ public class InventoryServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
+        ItemDB idb = new ItemDB();
+        CategoryDB cdb = new CategoryDB();
+        UserDB udb = new UserDB();
+        User loggedIn = null;
+        HttpSession session = request.getSession();
+        String username = (String)session.getAttribute("username");
+        String action = request.getParameter("action");
+        try {
+            loggedIn = udb.getUser(username);
+        } catch (HomeInventoryDBException ex) {
+            Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+        if(action.equals("delete"))
+        {
+            int selectedID = Integer.parseInt(request.getParameter("selectedItem"));
+            try {
+                Item deletedItem = idb.getItem(selectedID);
+                //deletedItem.setOwner(loggedIn);
+                idb.delete(deletedItem);
+                request.setAttribute("invalidItem", "Deleted successfully!");
+            } catch (HomeInventoryDBException ex) {
+                Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
+                request.setAttribute("invalidItem", "Failed to delete!");
+            }
+        }
+        else
+        {
+       
+        double itemPrice =0;
+            String categoryName = request.getParameter("type");
+            int categoryID = Integer.parseInt(categoryName);
+            String itemName = request.getParameter("itemAddName");
+            String itemPriceString = request.getParameter("itemAddPrice");
+            try
+            {
+            itemPrice = Double.parseDouble(itemPriceString);
+            }
+            catch(NumberFormatException a)
+            {
+                return;
+            }
+            Category category;
+            category = cdb.findCategory(categoryID);
+            Item newItem = new Item(0, itemName,category, itemPrice);
+            newItem.setOwner(loggedIn);
+            try {
+                idb.insert(newItem);
+                request.setAttribute("invalidItem", "Added successfully!");
+            } catch (HomeInventoryDBException ex) {
+                Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
+                request.setAttribute("invalidItem", "Error, unsuccessful!");
+            }
+            
+        }
+   
+//        UserDB newUDB = new UserDB();
+//        User newUser= null;
+//        try {
+//            newUser = newUDB.getUser(username);
+//        } catch (HomeInventoryDBException ex) {
+//            Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        List<Item> itemList;
+//        itemList = (List<Item>)newUser.getItemList();
+//        request.setAttribute("itemList", itemList);
+//        getServletContext().getRequestDispatcher("/WEB-INF/inventory.jsp").forward(request, response);
+        doGet(request, response);
     }
 
     /**

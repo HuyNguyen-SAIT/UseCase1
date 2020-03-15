@@ -56,7 +56,8 @@ public class Item implements Serializable {
     public Item() {
     }
     
-    public Item(String itemName, Category category, double price) {
+    public Item(int itemID, String itemName, Category category, double price) {
+        this.itemID = itemID;
         this.itemName = itemName;
         this.category = category;
         this.price = price;
