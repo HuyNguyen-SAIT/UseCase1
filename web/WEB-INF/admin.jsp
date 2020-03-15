@@ -50,8 +50,7 @@
                 
                 <td>
                     <form action="admin" method="POST">
-                   <input type="submit" value="Delete" >
-                    
+                        <input type="submit" value="Delete" >
                     <input type="hidden" name="action" value="delete">
                     <input type="hidden" name="selectedUser" value="${user.username}">  
                     </form>
@@ -71,11 +70,11 @@
         
         <h2>${addorsave} User</h2>
             <form action="admin" method="POST">
-                Username: <input type="text" name="username" value="${selectedUser.username}" ${readonly} id="username"><br>
-                Password: <input type="password" name="password" value="${selectedUser.password}" id="password"><br>
-                First name: <input type="text" name="firstname" value="${selectedUser.firstName}" id="firstname"><br>
-                Last name: <input type="text" name="lastname" value="${selectedUser.lastName}" id="lastname"><br>
-                Email: <input type="email" name="email" value="${selectedUser.email}" id="email"><br>
+                Username: <input type="text" required name="username" value="${selectedUser.username}" ${readonly} id="username"><br>
+                Password: <input type="password" required name="password" value="${selectedUser.password}" id="password"><br>
+                First name: <input type="text" required name="firstname" value="${selectedUser.firstName}" id="firstname"><br>
+                Last name: <input type="text" required name="lastname" value="${selectedUser.lastName}" id="lastname"><br>
+                Email: <input type="email" required name="email" value="${selectedUser.email}" id="email"><br>
                 <input type="hidden" name="action" value="${addorsave}">
                 <input type="submit" value="${addorsave}">
             </form>

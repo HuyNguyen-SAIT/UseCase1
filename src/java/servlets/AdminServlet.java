@@ -125,14 +125,11 @@ public class AdminServlet extends HttpServlet {
         else
             if(action.equals("delete"))
             {
-            
-            
             String selectUser = request.getParameter("selectedUser");
-            
             int deleted;
             try {
-                selectedUser = uc.get(selectUser);
-                deleted = uc.delete(selectedUser);
+                selectedUser = udb.getUser(selectUser);
+                deleted = udb.delete(selectedUser);
                 if(deleted == 0)
                 {
                     request.setAttribute("message", "Cannot delete admins!");

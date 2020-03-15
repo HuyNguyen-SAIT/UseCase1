@@ -6,7 +6,7 @@ import java.util.List;
 
 public class UserService {
 
-    private UserDB userDB;
+    private final UserDB userDB;
 
     public UserService() {
         userDB = new UserDB();
@@ -37,7 +37,7 @@ public class UserService {
             return 0;
         }
         delete= userDB.delete(user);
-         return delete;
+        return delete;
     }
 
     public int insert(String username, String password, String firstname, String lastname, String email) throws Exception {
