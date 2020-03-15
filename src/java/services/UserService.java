@@ -6,7 +6,7 @@ import java.util.List;
 
 public class UserService {
 
-    private final UserDB userDB;
+    private UserDB userDB;
 
     public UserService() {
         userDB = new UserDB();

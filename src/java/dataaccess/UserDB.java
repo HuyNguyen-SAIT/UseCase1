@@ -69,6 +69,21 @@ public class UserDB {
     }
 
     public int delete(User user) throws HomeInventoryDBException {
+        String username=user.getUsername();
+        try
+        {
+           username  = username.substring(0,5);
+        }
+        catch(Exception a)
+        {
+            
+        }
+        if(username.equals("admin"))
+        {
+            return 0;
+        }
+        else
+        {
         EntityManager em = DBUtil.getEmFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
         try {
@@ -82,6 +97,7 @@ public class UserDB {
             throw new HomeInventoryDBException("Error deleting user");
         } finally {
             em.close();
+        }
         }
     }
 }
