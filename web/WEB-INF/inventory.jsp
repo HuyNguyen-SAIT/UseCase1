@@ -4,22 +4,40 @@
     Author     : 794458
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Inventory</title>
     </head>
     <body>
         <h1>Home Inventory</h1>
+        
+        <table>
+            <tr>
+                <td>
+                    <a href="admin">Admin</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="inventory">Inventory</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="login?logout">Logout</a>
+                </td>
+            </tr>
+        </table>
+        
         <h2>Inventory for ${first} ${last}</h2>
         
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    <form action="inventory" method="POST">
-    <c:forEach var="item" items="${itemList}" >
-       
+    
         <table>
+            <thead>
             <tr>
                 
             <th>
@@ -35,6 +53,9 @@
                 Delete
             </th>
             </tr>
+            </thead>
+            <c:forEach var="item" items="${itemList}" >
+                <tbody>
             <tr>
                 <td> 
                     ${item.category.categoryName}
@@ -49,16 +70,19 @@
                 </td>
                 
                 <td>
+                    <form action="inventory" method="POST">
                     <input type="submit" value="Delete"> 
                     <input type="hidden" name="action" value="delete">
                     <input type="hidden" name="selectedItem" value="${item.itemID}"> 
+                    </form>
                 </td>
             </tr>
-      
+                </tbody>
+            </c:forEach>
    </table>
     
-</c:forEach>
-    </form>
+
+    
     <h2>Add Item</h2>
  <form method="post" action="inventory">
         <table>

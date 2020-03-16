@@ -159,9 +159,11 @@ public class AdminServlet extends HttpServlet {
             try {
                 uc.insert(username, password, fname, lname,email);
                 request.setAttribute("message", "Added successfully!");
+            
+                
             } catch (Exception ex) {
                 Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
-                request.setAttribute("message", "Failed to add!");
+                request.setAttribute("message", "Failed to add, username already exists!");
             }
             doGet(request,response);
             }

@@ -33,9 +33,6 @@ public class UserService {
         
         // do not allow the admin to be deleted
         int delete;
-        if (user.getUsername().substring(0,5).equalsIgnoreCase("admin")) {
-            return 0;
-        }
         delete= userDB.delete(user);
         return delete;
     }

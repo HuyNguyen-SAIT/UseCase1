@@ -51,8 +51,12 @@ public class AdminFilter implements Filter{
         }
         else
         {
-            HttpServletResponse resp = (HttpServletResponse)response;
-            resp.sendRedirect("inventory");
+            
+            
+               HttpServletResponse resp = (HttpServletResponse)response; 
+               resp.sendRedirect("inventory");
+           
+        
         }
     }
 

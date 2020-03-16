@@ -41,9 +41,11 @@ public class ItemDB {
     
     public List<Item> getAll(User owner) throws HomeInventoryDBException {
         EntityManager em = DBUtil.getEmFactory().createEntityManager();
+        UserDB udb = new UserDB();
         try {
             List<Item> items = em.createNamedQuery("Item.findAll", Item.class).getResultList();
-            ArrayList<Item> userItems= new ArrayList<>();
+            List<Item> userItems;
+            userItems = new ArrayList<>();
             for(int i=0; i<items.size();i++)
             {
                 if(items.get(i).getOwner().getUsername().equals(owner.getUsername()))
@@ -51,6 +53,7 @@ public class ItemDB {
                    userItems.add(items.get(i));
                 }
             }
+            //owner.setItemList(items);
             return userItems;                
         } finally {
             em.close();

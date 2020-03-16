@@ -13,9 +13,26 @@
     </head>
     <body>
         <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+        <table>
+            <tr>
+                <td>
+                    <a href="admin">Admin</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="inventory">Inventory</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="login?logout">Logout</a>
+                </td>
+            </tr>
+        </table>
         <h1>Manage Users</h1>
         
-        <c:forEach var="user" items="${userList}" >
+        
         <table>
             <tr>
                 <th>
@@ -35,6 +52,8 @@
                 </th>
              
             </tr>
+            <c:forEach var="user" items="${userList}" >
+                <tbody>
             <tr>
                 <td> 
                     ${user.username}
@@ -64,8 +83,10 @@
                     </form>
                 </td>
             </tr>
+                </tbody>
+                 </c:forEach>
         </table>
-        </c:forEach>
+       
         
         
         <h2>${addorsave} User</h2>

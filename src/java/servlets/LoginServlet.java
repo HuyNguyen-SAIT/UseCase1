@@ -66,7 +66,7 @@ public class LoginServlet extends HttpServlet {
         // more secure, logout if seeing login page
         HttpSession session = request.getSession();
         session.invalidate();
-        String action = request.getParameter("action");
+        String action = request.getParameter("logout");
         if(action == null)
         {
             
