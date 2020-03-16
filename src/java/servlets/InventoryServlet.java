@@ -71,13 +71,13 @@ public class InventoryServlet extends HttpServlet {
         
         UserDB udb = new UserDB();
         ItemDB idb = new ItemDB();
-        UserService uc = new UserService();
-        User loggedIn = null;
+       
+        User loggedIn = new User();
         HttpSession session = request.getSession();
         List<Item> itemList = null;
         try {
             loggedIn = udb.getUser((String)session.getAttribute("username"));
-            itemList = loggedIn.getItemList();
+            itemList = idb.getAll(loggedIn);
         } catch (HomeInventoryDBException ex) {
             Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -122,8 +122,10 @@ public class InventoryServlet extends HttpServlet {
                 Item deletedItem = idb.getItem(selectedID);
                 //items.remove(deletedItem);
                 idb.delete(deletedItem);
-                items = idb.getAll(loggedIn);
+                
+                //items = idb.getAll(loggedIn);
                 //loggedIn.setItemList(items);
+                //List<Item> itemlist = loggedIn.getItemList();
                 request.setAttribute("invalidItem", "Deleted successfully!");
             } catch (HomeInventoryDBException ex) {
                 Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -152,7 +154,7 @@ public class InventoryServlet extends HttpServlet {
             newItem.setOwner(loggedIn);
             try {
                 idb.insert(newItem);
-                items = idb.getAll(loggedIn);
+                //items = idb.getAll(loggedIn);
                 //loggedIn.setItemList(items);
                 request.setAttribute("invalidItem", "Added successfully!");
             } catch (HomeInventoryDBException ex) {
@@ -161,9 +163,17 @@ public class InventoryServlet extends HttpServlet {
             }
             
         }
-       request.setAttribute("itemList", items);
-       getServletContext().getRequestDispatcher("/WEB-INF/inventory.jsp").forward(request, response);
-//        doGet(request, response);
+
+//        User newLoggedIn = new User();
+//        try {
+//            newLoggedIn = udb.getUser(username);
+//        } catch (HomeInventoryDBException ex) {
+//            Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//       request.setAttribute("itemList", newLoggedIn.getItemList());
+//       
+//      getServletContext().getRequestDispatcher("/WEB-INF/inventory.jsp").forward(request, response);
+        doGet(request, response);
     }
 
     /**
