@@ -33,7 +33,7 @@
         <h1>Manage Users</h1>
         
         
-        <table>
+        <table border="3">
             <tr>
                 <th>
                     Username
@@ -99,6 +99,9 @@
                 <input type="hidden" name="action" value="${addorsave}">
                 <input type="submit" value="${addorsave}">
             </form>
-            ${message}
+            
     </body>
+    <font size="4" color="red">
+    <p>${message}</p>
+    </font>
 </html>

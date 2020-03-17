@@ -12,8 +12,6 @@
         <title>Inventory</title>
     </head>
     <body>
-        <h1>Home Inventory</h1>
-        
         <table>
             <tr>
                 <td>
@@ -31,12 +29,15 @@
                 </td>
             </tr>
         </table>
+        <h1>Home Inventory</h1>
+        
+        
         
         <h2>Inventory for ${first} ${last}</h2>
         
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     
-        <table>
+        <table border="3">
             <thead>
             <tr>
                 
@@ -112,10 +113,13 @@
             <tr>
                 <td>
                     <input type="submit" name="action" value="Save"><br/>
-                    ${invalidItem}
+                    
                 </td>
             </tr>
         </table> 
  </form>
+    <font color="red" size="4">
+    <p>${invalidItem}</p>
+    </font>
     </body>
 </html>

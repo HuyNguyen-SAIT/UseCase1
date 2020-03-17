@@ -16,6 +16,7 @@
         <h2>Login</h2>
         <form action="login" method="POST">
         <table>
+            <tbody>
             <tr>
                 <td>
                     Username: <input type="text" name="usernameLogin" value="${usernameAgain}" title="Your username"/>
@@ -33,13 +34,12 @@
                     <input type="submit" value="Login">
                 </td>
             </tr>
-            
-            <tr>
-                <td>
-                    ${errorMessage}
-                </td>
-            </tr>
+            </tbody>
         </table>
         </form>
+        <font color="red" size="4">
+        <p color="red">${errorMessage}</p>
+        </font>
+        
     </body>
 </html>
