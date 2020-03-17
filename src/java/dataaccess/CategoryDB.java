@@ -12,6 +12,7 @@ import domain.Item;
 import domain.User;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 /**
  *
@@ -26,6 +27,19 @@ public Category findCategory(int categoryID)
     try {
     category = em.find(Category.class, categoryID);
     return category;                
+        } finally {
+            em.close();
+        }
+}
+
+public List<Category> getAll()
+{
+    List<Category> categories = null;
+    EntityManager em = DBUtil.getEmFactory().createEntityManager();
+    
+    try {
+        categories = em.createNamedQuery("Category.findAll", Category.class).getResultList();
+    return categories;                
         } finally {
             em.close();
         }

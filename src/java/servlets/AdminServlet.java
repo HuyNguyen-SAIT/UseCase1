@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import dataaccess.ItemDB;
 import dataaccess.UserDB;
 import database.HomeInventoryDBException;
 import domain.User;
@@ -95,6 +96,7 @@ public class AdminServlet extends HttpServlet {
         UserService uc = new UserService();
         String action = request.getParameter("action");
         UserDB udb = new UserDB();
+        ItemDB idb = new ItemDB();
         User selectedUser = null ;
         if(action.equals("view"))
         {
@@ -129,6 +131,7 @@ public class AdminServlet extends HttpServlet {
             int deleted;
             try {
                 selectedUser = udb.getUser(selectUser);
+                selectedUser.setItemList(idb.getAll(selectedUser));
                 deleted = udb.delete(selectedUser);
                 if(deleted == 0)
                 {

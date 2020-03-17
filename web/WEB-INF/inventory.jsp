@@ -87,20 +87,15 @@
  <form method="post" action="inventory">
         <table>
             <tr>
-                <td>
-                    Category:<select name="type">
-  <option value="1">Kitchen</option>
-  <option value="2">Bathroom</option>
-  <option value="3">Living room</option>
-  <option value="4">Basement</option>
-  <option value="5">Bedroom</option>
-  <option value="6">Garage</option>
-  <option value="7">Office</option>
-  <option value="8">Utility room</option>
-  <option value="9">Storage</option>
-  <option value="10">Other</option>
-</select> 
-                </td>
+            <td>
+                     
+  Category:<select name="type">
+  <c:forEach var="catg" items="${categories}">   
+  <option value="${catg.categoryID}">${catg.categoryName}</option>
+  </c:forEach>
+  </select> 
+                     
+            </td>
             </tr>
             <tr>
                 <td>

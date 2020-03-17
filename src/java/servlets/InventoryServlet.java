@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import services.UserService;
 
 /**
  *
@@ -71,17 +70,20 @@ public class InventoryServlet extends HttpServlet {
         
         UserDB udb = new UserDB();
         ItemDB idb = new ItemDB();
-       
+        CategoryDB cdb = new CategoryDB();
+        List<Category> categories = cdb.getAll();
+        
         User loggedIn = new User();
         HttpSession session = request.getSession();
         List<Item> itemList = null;
         try {
             loggedIn = udb.getUser((String)session.getAttribute("username"));
             itemList = idb.getAll(loggedIn);
+            //itemList = loggedIn.getItemList();
         } catch (HomeInventoryDBException ex) {
             Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        request.setAttribute("categories", categories);
         request.setAttribute("itemList", itemList);
         getServletContext().getRequestDispatcher("/WEB-INF/inventory.jsp").forward(request, response);
   //  }
@@ -122,8 +124,8 @@ public class InventoryServlet extends HttpServlet {
                 Item deletedItem = idb.getItem(selectedID);
                 //items.remove(deletedItem);
                 idb.delete(deletedItem);
-                
-                //items = idb.getAll(loggedIn);
+                items = idb.getAll(loggedIn);
+                //udb.setUserList(loggedIn, items);
                 //loggedIn.setItemList(items);
                 //List<Item> itemlist = loggedIn.getItemList();
                 request.setAttribute("invalidItem", "Deleted successfully!");
@@ -154,8 +156,8 @@ public class InventoryServlet extends HttpServlet {
             newItem.setOwner(loggedIn);
             try {
                 idb.insert(newItem);
-                //items = idb.getAll(loggedIn);
-                //loggedIn.setItemList(items);
+                items = idb.getAll(loggedIn);
+                loggedIn.setItemList(items);
                 request.setAttribute("invalidItem", "Added successfully!");
             } catch (HomeInventoryDBException ex) {
                 Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);

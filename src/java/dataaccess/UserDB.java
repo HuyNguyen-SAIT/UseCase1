@@ -2,6 +2,7 @@ package dataaccess;
 
 import database.DBUtil;
 import database.HomeInventoryDBException;
+import domain.Item;
 import domain.User;
 import java.util.List;
 import java.util.logging.Level;
@@ -47,8 +48,28 @@ public class UserDB {
             em.close();
         }
     }
+    
+    public void setUserList(User user, List<Item>itemList) throws HomeInventoryDBException {
+        EntityManager em = DBUtil.getEmFactory().createEntityManager();
+        
+        try {
+            user = getUser(user.getUsername());
+           
+            user.setItemList(itemList);
+            
+        } catch (HomeInventoryDBException ex) {
+            
+            Logger.getLogger(UserDB.class.getName()).log(Level.SEVERE, "Cannot update itemlist of " + user.toString(), ex);
+            throw new HomeInventoryDBException("Error updating user's itemlist");
+        } finally {
+            em.close();
+        }
+    }
+    
+    
 
     public List<User> getAll() throws HomeInventoryDBException {
+        
         EntityManager em = DBUtil.getEmFactory().createEntityManager();
         try {
             List<User> users = em.createNamedQuery("User.findAll", User.class).getResultList();
