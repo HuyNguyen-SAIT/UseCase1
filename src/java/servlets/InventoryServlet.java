@@ -158,13 +158,11 @@ public class InventoryServlet extends HttpServlet {
             category = cdb.findCategory(categoryID);
             Item newItem = new Item(0, itemName,category, itemPrice);
             newItem.setOwner(loggedIn);
-            ic.insertItemFilter(loggedIn,newItem);
             try {
-                items = idb.getAll(loggedIn);
+                ic.insertItemFilter(loggedIn,newItem);
             } catch (HomeInventoryDBException ex) {
                 Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            loggedIn.setItemList(items);
             request.setAttribute("invalidItem", "Added successfully!");
             
         }
