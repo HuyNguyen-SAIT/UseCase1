@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import services.InventoryService;
 
 /**
  *
@@ -105,6 +106,7 @@ public class InventoryServlet extends HttpServlet {
         ItemDB idb = new ItemDB();
         CategoryDB cdb = new CategoryDB();
         UserDB udb = new UserDB();
+        InventoryService ic = new InventoryService();
         User loggedIn = null;
         HttpSession session = request.getSession();
         String username = (String)session.getAttribute("username");
@@ -117,14 +119,16 @@ public class InventoryServlet extends HttpServlet {
             
         if(action.equals("delete"))
         {
+            int result =0;
             String selectID = request.getParameter("selectedItem");
             int selectedID = Integer.parseInt(selectID);
             try {
                 //List<Item> items = loggedIn.getItemList();
                 Item deletedItem = idb.getItem(selectedID);
                 //items.remove(deletedItem);
-                idb.delete(deletedItem);
-                items = idb.getAll(loggedIn);
+                ic.itemDeleteFilter(loggedIn,deletedItem);
+                
+                //items = idb.getAll(loggedIn);
                 //udb.setUserList(loggedIn, items);
                 //loggedIn.setItemList(items);
                 //List<Item> itemlist = loggedIn.getItemList();
@@ -154,15 +158,14 @@ public class InventoryServlet extends HttpServlet {
             category = cdb.findCategory(categoryID);
             Item newItem = new Item(0, itemName,category, itemPrice);
             newItem.setOwner(loggedIn);
+            ic.insertItemFilter(loggedIn,newItem);
             try {
-                idb.insert(newItem);
                 items = idb.getAll(loggedIn);
-                loggedIn.setItemList(items);
-                request.setAttribute("invalidItem", "Added successfully!");
             } catch (HomeInventoryDBException ex) {
                 Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
-                request.setAttribute("invalidItem", "Failed to add!");
             }
+            loggedIn.setItemList(items);
+            request.setAttribute("invalidItem", "Added successfully!");
             
         }
 
