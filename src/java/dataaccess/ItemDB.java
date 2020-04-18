@@ -59,6 +59,16 @@ public class ItemDB {
             em.close();
         }
     }
+    public List<Item> getAll() throws HomeInventoryDBException {
+        EntityManager em = DBUtil.getEmFactory().createEntityManager();
+        try {
+            List<Item> items = em.createNamedQuery("Item.findAll", Item.class).getResultList();
+            return items;                
+        } finally {
+            em.close();
+        }
+        
+    }
     
     public Item getItem(int itemID) throws HomeInventoryDBException {
         EntityManager em = DBUtil.getEmFactory().createEntityManager();
@@ -88,6 +98,23 @@ public class ItemDB {
             trans.rollback();
             Logger.getLogger(UserDB.class.getName()).log(Level.SEVERE, "Cannot insert " + item.toString(), ex);
             throw new HomeInventoryDBException("Error inserting item");
+        } finally {
+            em.close();
+        }
+    }
+    public int save(Item item) throws HomeInventoryDBException
+    {
+        EntityManager em = DBUtil.getEmFactory().createEntityManager();
+        EntityTransaction trans = em.getTransaction();
+        try {
+            trans.begin();
+            em.merge(item);
+            trans.commit();
+            return 1;
+        } catch (Exception ex) {
+            trans.rollback();
+            Logger.getLogger(ItemDB.class.getName()).log(Level.SEVERE, "Cannot update " + item.toString(), ex);
+            throw new HomeInventoryDBException("Error updating item");
         } finally {
             em.close();
         }

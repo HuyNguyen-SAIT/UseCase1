@@ -90,16 +90,8 @@ public class UserDB {
     }
 
     public int delete(User user) throws HomeInventoryDBException {
-        String username=user.getUsername();
-        try
-        {
-           username  = username.substring(0,5);
-        }
-        catch(Exception a)
-        {
-            
-        }
-        if(username.equals("admin"))
+       
+        if(user.getIsAdmin()==true)
         {
             return 0;
         }

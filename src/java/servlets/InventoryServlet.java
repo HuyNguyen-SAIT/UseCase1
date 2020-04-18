@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import services.InventoryService;
+import services.UserService;
 
 /**
  *
@@ -72,20 +73,36 @@ public class InventoryServlet extends HttpServlet {
         UserDB udb = new UserDB();
         ItemDB idb = new ItemDB();
         CategoryDB cdb = new CategoryDB();
-        List<Category> categories = cdb.getAll();
+        
+        HttpSession session = request.getSession();
         
         User loggedIn = new User();
-        HttpSession session = request.getSession();
         List<Item> itemList = null;
+        List<Category> categories=null;
+        
         try {
             loggedIn = udb.getUser((String)session.getAttribute("username"));
+            if(loggedIn.getActive()==true)
+            {
+                request.setAttribute("selectedA", "selected");
+                request.setAttribute("selectedI", "");
+            }
+            else
+            {
+                request.setAttribute("selectedI", "selected");
+                request.setAttribute("selectedA", "");
+            }
             itemList = idb.getAll(loggedIn);
+            categories = cdb.getAll();
             //itemList = loggedIn.getItemList();
         } catch (HomeInventoryDBException ex) {
             Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        request.setAttribute("selectedUser", loggedIn);
         request.setAttribute("categories", categories);
         request.setAttribute("itemList", itemList);
+        request.setAttribute("addorsave", "Add");
         getServletContext().getRequestDispatcher("/WEB-INF/inventory.jsp").forward(request, response);
   //  }
     }
@@ -102,12 +119,21 @@ public class InventoryServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        List<Item> items = null;
+        
         ItemDB idb = new ItemDB();
         CategoryDB cdb = new CategoryDB();
         UserDB udb = new UserDB();
+        
         InventoryService ic = new InventoryService();
+        UserService uc = new UserService();
+        
         User loggedIn = null;
+        List<Item> items = null;
+        List<Category> categories;
+        
+        String selectID;
+        int selectedID;
+        
         HttpSession session = request.getSession();
         String username = (String)session.getAttribute("username");
         String action = request.getParameter("action");
@@ -120,8 +146,8 @@ public class InventoryServlet extends HttpServlet {
         if(action.equals("delete"))
         {
             int result =0;
-            String selectID = request.getParameter("selectedItem");
-            int selectedID = Integer.parseInt(selectID);
+            selectID = request.getParameter("selectedItem");
+            selectedID = Integer.parseInt(selectID);
             try {
                 //List<Item> items = loggedIn.getItemList();
                 Item deletedItem = idb.getItem(selectedID);
@@ -139,7 +165,81 @@ public class InventoryServlet extends HttpServlet {
             }
         }
         else
-        {
+            if(action.equals("view"))
+            {
+                selectID = request.getParameter("selectedItem");
+                selectedID = Integer.parseInt(selectID);
+                categories = cdb.getAll();
+            try {
+                Item item = idb.getItem(selectedID);
+                request.setAttribute("chosenItem", item);
+                request.setAttribute("selected", item.getCategory());
+                
+                request.setAttribute("addorsave", "Save");
+                
+                try {
+            items = idb.getAll(loggedIn);
+            //itemList = loggedIn.getItemList();
+        } catch (HomeInventoryDBException ex) {
+            Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        request.setAttribute("selectedUser", loggedIn);
+        request.setAttribute("categories", categories);
+        request.setAttribute("itemList", items);
+        getServletContext().getRequestDispatcher("/WEB-INF/inventory.jsp").forward(request, response);
+            } catch (HomeInventoryDBException ex) {
+                Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            }
+        else
+                if(action.equals("Save"))
+                {
+                    selectID = request.getParameter("selectedItem");
+                    selectedID = Integer.parseInt(selectID);
+                    String newName = request.getParameter("itemAddName");
+                    String newPriceS = request.getParameter("itemAddPrice");
+                    String newCategoryName = request.getParameter("type");
+                    int newCategoryID = Integer.parseInt(newCategoryName);
+                    Category newCate = cdb.findCategory(newCategoryID);
+                    Double newPrice = Double.parseDouble(newPriceS);
+            try {
+                ic.saveItem(selectedID, newName, newPrice, newCate);
+                request.setAttribute("invalidItem", "Updated successfully!");
+                
+            } catch (HomeInventoryDBException ex) {
+                Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                }     
+        else
+                    if(action.equals("Edit"))
+                    {
+                
+                String password = request.getParameter("password");
+                String fname = request.getParameter("firstname");
+                String lname = request.getParameter("lastname");
+                String email = request.getParameter("email");
+                String active = request.getParameter("isactive");
+                boolean isActive;
+                if(active.equals("Active"))
+                {
+                    isActive = true;
+                }
+                else
+                {
+                    isActive = false;
+                }
+            try {
+                uc.update(username, password, fname, lname, email, isActive);
+                request.setAttribute("invalidItem", "Updated successfully!");
+                
+                
+            } catch (Exception ex) {
+                Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
+                request.setAttribute("invalidItem", "Failed to update!");
+            }
+         }
+                
+         else{
        
         double itemPrice =0;
             String categoryName = request.getParameter("type");
@@ -176,6 +276,8 @@ public class InventoryServlet extends HttpServlet {
 //       request.setAttribute("itemList", newLoggedIn.getItemList());
 //       
 //      getServletContext().getRequestDispatcher("/WEB-INF/inventory.jsp").forward(request, response);
+        
+    
         doGet(request, response);
     }
 

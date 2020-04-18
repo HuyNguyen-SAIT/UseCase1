@@ -93,14 +93,14 @@ public class LoginServlet extends HttpServlet {
             UserDB db = new UserDB();
             try {
                 User loggedIn = db.getUser(username);
-                session.setAttribute("first", loggedIn.getFirstName());
-                session.setAttribute("last", loggedIn.getLastName());
+                session.setAttribute("selectedUser", loggedIn);
+                //session.setAttribute("last", loggedIn.getLastName());
             } catch (HomeInventoryDBException ex) {
                 Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             response.sendRedirect("admin");
         } else {
-            request.setAttribute("errorMessage", "Invalid login credentials. Please try again");
+            request.setAttribute("errorMessage", "Invalid login credentials or user is not active. Please try again");
             request.setAttribute("usernameAgain", username);
             
             getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);

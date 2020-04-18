@@ -28,6 +28,28 @@ public class UserService {
         user.setEmail(email);
         return userDB.update(user);
     }
+    public int update(String username, String password, String firstname, String lastname, String email, boolean isActive) throws Exception {
+        User user = get(username);
+        //user.setUsername(username);
+        user.setPassword(password);
+        user.setFirstName(firstname);
+        user.setLastName(lastname);
+        user.setEmail(email);
+        user.setActive(isActive);
+        return userDB.update(user);
+    }
+    
+    public int update(String username, String password, String firstname, String lastname, String email, boolean isActive, boolean isAdmin) throws Exception {
+        User user = get(username);
+        //user.setUsername(username);
+        user.setPassword(password);
+        user.setFirstName(firstname);
+        user.setLastName(lastname);
+        user.setEmail(email);
+        user.setActive(isActive);
+        user.setIsAdmin(isAdmin);
+        return userDB.update(user);
+    }
 
     public int delete(User user) throws Exception {
         
@@ -38,10 +60,20 @@ public class UserService {
     }
 
     public int insert(String username, String password, String firstname, String lastname, String email) throws Exception {
+        List<User>userList = userDB.getAll();
+        for(User user: userList)
+        {
+            if(user.getUsername().equals(username))
+            {
+                return 0;
+            }
+        }
         User user = new User(username, password);
         user.setFirstName(firstname);
         user.setLastName(lastname);
         user.setEmail(email);
+        user.setActive(true);
+        user.setIsAdmin(false);
         return userDB.insert(user);
     }
 }

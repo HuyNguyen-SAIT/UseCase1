@@ -90,6 +90,8 @@ INSERT INTO `users` (`Username`,`Password`,`Email`,`FirstName`,`LastName`,`Activ
 INSERT INTO `users` (`Username`,`Password`,`Email`,`FirstName`,`LastName`,`Active`,`IsAdmin`) VALUES ('admin2','password','cprg352+admin2@gmail.com','Admin2','Admin2',0,1);
 INSERT INTO `users` (`Username`,`Password`,`Email`,`FirstName`,`LastName`,`Active`,`IsAdmin`) VALUES ('anne','password','cprg352+anne@gmail.com','Anne','Annerson',1,0);
 INSERT INTO `users` (`Username`,`Password`,`Email`,`FirstName`,`LastName`,`Active`,`IsAdmin`) VALUES ('barb','password','cprg352+barb@gmail.com','Barb','Barber',0,0);
+INSERT INTO `users` (`Username`,`Password`,`Email`,`FirstName`,`LastName`,`Active`,`IsAdmin`) VALUES ('carl','password','cprg352+carl@gmail.com','Carl','Junior',1,0);
+INSERT INTO `users` (`Username`,`Password`,`Email`,`FirstName`,`LastName`,`Active`,`IsAdmin`) VALUES ('don','password','cprg352+don@gmail.com','Don','Douglas',1,0);
 
 INSERT INTO `items` (`Category`,`ItemName`,`Price`,`Owner`) VALUES (1,'blender',29.99,'anne');
 INSERT INTO `items` (`Category`,`ItemName`,`Price`,`Owner`) VALUES (1,'toaster',19.99,'anne');

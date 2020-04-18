@@ -1,0 +1,49 @@
+.red
+{
+  color:red;
+  font-size: 4;
+  font-family: cursive;
+}
+.dark
+{
+    background-color: lightgray;
+}
+.green
+{
+    color:green;
+}
+.table1
+{
+    
+    border:1px solid black;
+    border-collapse: collapse;
+}
+.right
+{
+    float:right;
+    
+}
+td, th
+{
+    background-color: aliceblue;
+    border:1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+}
+a:hover
+{
+   background-color: lightsteelblue;
+}
+body
+{
+ background-color: lightgray;   
+}
+
+.greenA
+{
+    background-color: lightgreen;
+}
+.redI
+{
+    background-color: red;
+}
