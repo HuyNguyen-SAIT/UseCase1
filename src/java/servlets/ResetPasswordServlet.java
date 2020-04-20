@@ -90,6 +90,8 @@ public class ResetPasswordServlet extends HttpServlet {
                 getServletContext().getRequestDispatcher("/WEB-INF/welcomenewuser.jsp").forward(request, response);
             } catch (HomeInventoryDBException ex) {
                 Logger.getLogger(ResetPasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
+                request.setAttribute("message", "An error occurred. Please contact an admin");
+                getServletContext().getRequestDispatcher("/WEB-INF/welcomenewuser.jsp").forward(request, response);
             }    
             }
     }
@@ -178,6 +180,8 @@ public class ResetPasswordServlet extends HttpServlet {
                 request.setAttribute("errorMessage", "Password updated successfully!");
             } catch (HomeInventoryDBException ex) {
                 Logger.getLogger(ResetPasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
+                request.setAttribute("errorMessage", "An error occurred. Please try again");
+                getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
             }
         }
         
