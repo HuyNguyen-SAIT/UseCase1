@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import domain.User;
+import javax.mail.Session;
 import services.AccountService;
 import services.GmailService;
 
@@ -72,10 +73,25 @@ public class ResetPasswordServlet extends HttpServlet {
             getServletContext().getRequestDispatcher("/WEB-INF/reset.jsp").forward(request, response);
         }
         else
+            if(action.equals("new"))
         {
             getServletContext().getRequestDispatcher("/WEB-INF/resetNewPassword.jsp").forward(request, response);
         
         }
+        else
+            {
+                UserDB udb = new UserDB();
+                HttpSession session = request.getSession();
+                AccountService ac =new AccountService();
+                try {
+                User user = udb.getUser((String)session.getAttribute("unactivatedUser"));
+                ac.activateAccount(user);
+                request.setAttribute("message", "Account activated successfully!");
+                getServletContext().getRequestDispatcher("/WEB-INF/welcomenewuser.jsp").forward(request, response);
+            } catch (HomeInventoryDBException ex) {
+                Logger.getLogger(ResetPasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }    
+            }
     }
 
     /**
@@ -151,6 +167,7 @@ public class ResetPasswordServlet extends HttpServlet {
         
         }
         else
+            
         {
             String newPassword = request.getParameter("newPassword");
             
@@ -163,6 +180,7 @@ public class ResetPasswordServlet extends HttpServlet {
                 Logger.getLogger(ResetPasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
         getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
     }
 

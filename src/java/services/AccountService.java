@@ -38,6 +38,12 @@ public String resetPassword(String url)
         String link = url + "&uuid=" + uuid;
         return link;
     }
+public String welcome(String url)
+    {
+        String uuid = UUID.randomUUID().toString();
+        String link = url + "&uuid=" + uuid;
+        return link;
+    }
     public boolean changePassword(String uuid, String password) {
         UserService us = new UserService();
         UserDB udb = new UserDB();
@@ -59,5 +65,12 @@ public String resetPassword(String url)
             Logger.getLogger(AccountService.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
+    }
+
+    public int activateAccount(User user) throws HomeInventoryDBException {
+         //To change body of generated methods, choose Tools | Templates.
+         UserDB udb = new UserDB();
+         user.setActive(true);
+         return udb.update(user);
     }
 }

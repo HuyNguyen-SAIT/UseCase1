@@ -73,7 +73,7 @@ public class UserService {
         user.setFirstName(firstname);
         user.setLastName(lastname);
         user.setEmail(email);
-        user.setActive(true);
+        user.setActive(false);
         user.setIsAdmin(false);
         String uuid = UUID.randomUUID().toString();
         user.setResetPasswordUUID(uuid);

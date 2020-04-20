@@ -30,7 +30,7 @@
                         <input type="text" required name="username" id="username" value="${usernameReg}">
                     </td>
                     <td>
-                        <span class="red" id="username_message"></span>
+                        Status: <span class="red" id="username_message">...</span>
                     </td>
                 </tr>
                 <tr>

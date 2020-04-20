@@ -15,6 +15,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import domain.User;
+import java.util.HashMap;
+import javax.servlet.http.HttpSession;
+import services.AccountService;
+import services.GmailService;
 import services.UserService;
 
 /**
@@ -44,9 +48,9 @@ public class RegistrationServlet extends HttpServlet {
                 }
                 else
                     if (user == null) {
-                    response.getWriter().write("-Great!");
+                    response.getWriter().write("OK!");
                 } else {
-                    response.getWriter().write("-Username already existed");
+                    response.getWriter().write("Username already existed");
                 }
             } catch (Exception ex) {
                 Logger.getLogger(RegistrationServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -61,7 +65,7 @@ public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //AccountService as = new AccountService();
+        AccountService ac = new AccountService();
         UserDB db = new UserDB();
         UserService us = new UserService();
         User user = null;
@@ -93,9 +97,19 @@ public class RegistrationServlet extends HttpServlet {
         else
         {
             try {
+                HttpSession session = request.getSession();
                 us.insert(username, password, fname, lname,email);
                 //response.getWriter().write("Successful!");
-                 request.setAttribute("errorMessage", "Done!");
+                String subject = "Activate account";
+                String template = getServletContext().getRealPath("/WEB-INF") + "/emailtemplates/welcome1.html";
+                HashMap<String, String> tags = new HashMap<>();
+                tags.put("firstname", fname);
+                tags.put("lastname", lname);
+                tags.put("username", username);
+                tags.put("link", ac.welcome(request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/reset?action=newuser"));
+                GmailService.sendMail(email, subject, template, tags);
+                session.setAttribute("unactivatedUser",username);
+                request.setAttribute("errorMessage", "Done! Check your mailbox for account activation");
                 getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
             } catch (HomeInventoryDBException ex) {
                 Logger.getLogger(RegistrationServlet.class.getName()).log(Level.SEVERE, null, ex);
