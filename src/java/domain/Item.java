@@ -55,29 +55,30 @@ public class Item implements Serializable {
 
     public Item() {
     }
-    
-    public Item(int itemID, String itemName, Category category, double price) {
-        this.itemID = itemID;
-        this.itemName = itemName;
-        this.category = category;
-        this.price = price;
-    }
 
-    public Item(int itemID) {
+    public Item(Integer itemID) {
         this.itemID = itemID;
     }
 
-    public Item(int itemID, String itemName, double price) {
+    public Item(Integer itemID, String itemName, double price) {
         this.itemID = itemID;
         this.itemName = itemName;
         this.price = price;
     }
 
-    public int getItemID() {
+    public Item(int itemID, String itemName, Category category, double itemPrice) {
+         //To change body of generated methods, choose Tools | Templates.
+         this.itemID = itemID;
+         this.itemName = itemName;
+         this.category = category;
+         price = itemPrice;
+    }
+
+    public Integer getItemID() {
         return itemID;
     }
 
-    public void setItemID(int itemID) {
+    public void setItemID(Integer itemID) {
         this.itemID = itemID;
     }
 

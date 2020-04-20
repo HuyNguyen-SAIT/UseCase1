@@ -10,17 +10,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel='stylesheet' type='text/css' href='js/style.css'/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="js/lang.js"></script>
         <title>Login</title>
     </head>
     <body>
-        <button id="switch-lang">Switch Language</button>
          
-        <h1><span lang="en">Hello</span> <span lang="es">Hola</span></h1>
-
-        <p lang="en">I really enjoy coding.</p>
-
-        <p lang="es">Me gusta mucho la codificación.</p>
-        
         <p class="red">${errorMessage}</p>
         <h1>Home Inventory</h1>
         <h2>Login</h2>
@@ -53,7 +48,7 @@
             </tbody>
         </table>
         </form>
-                
+                <br/><a href="reset?action=forget">Forget password?</a>
                 <br/><a href="register">New user? Register now!</a>
     </body>
 </html>

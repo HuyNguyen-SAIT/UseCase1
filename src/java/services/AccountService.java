@@ -6,7 +6,11 @@
 package services;
 
 import dataaccess.UserDB;
+import database.HomeInventoryDBException;
 import domain.User;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -22,10 +26,38 @@ public class AccountService {
             if (user.getPassword().equals(password) && user.getActive()==true) {
                 return user;
             }
-        } catch (Exception e) {
+        } catch (HomeInventoryDBException e) {
 
         }
 
         return null;
+    }
+public String resetPassword(String url)
+    {
+        String uuid = UUID.randomUUID().toString();
+        String link = url + "&uuid=" + uuid;
+        return link;
+    }
+    public boolean changePassword(String uuid, String password) {
+        UserService us = new UserService();
+        UserDB udb = new UserDB();
+        try {
+            User user = udb.getByUUID(uuid);
+            if(user == null)
+            {
+               return false; 
+            }
+            else
+            {   
+            user.setPassword(password);
+            user.setResetPasswordUUID(null);
+            
+            udb.update(user);
+            return true;
+            }
+        } catch (HomeInventoryDBException ex) {
+            Logger.getLogger(AccountService.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 }

@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `homeinventorydb`.`users` (
   `LastName` VARCHAR(50) NOT NULL,
   `Active` BIT NOT NULL,
   `IsAdmin` BIT NOT NULL,
+  `resetPasswordUUID` VARCHAR(100),
   PRIMARY KEY (`Username`))
 ENGINE = InnoDB;
 
@@ -86,12 +87,12 @@ INSERT INTO `categories` (`CategoryName`) VALUES ('utility room');
 INSERT INTO `categories` (`CategoryName`) VALUES ('storage');
 INSERT INTO `categories` (`CategoryName`) VALUES ('other');
 
-INSERT INTO `users` (`Username`,`Password`,`Email`,`FirstName`,`LastName`,`Active`,`IsAdmin`) VALUES ('admin','password','cprg352+admin@gmail.com','Admin','Admin',1,1);
-INSERT INTO `users` (`Username`,`Password`,`Email`,`FirstName`,`LastName`,`Active`,`IsAdmin`) VALUES ('admin2','password','cprg352+admin2@gmail.com','Admin2','Admin2',0,1);
-INSERT INTO `users` (`Username`,`Password`,`Email`,`FirstName`,`LastName`,`Active`,`IsAdmin`) VALUES ('anne','password','cprg352+anne@gmail.com','Anne','Annerson',1,0);
-INSERT INTO `users` (`Username`,`Password`,`Email`,`FirstName`,`LastName`,`Active`,`IsAdmin`) VALUES ('barb','password','cprg352+barb@gmail.com','Barb','Barber',0,0);
-INSERT INTO `users` (`Username`,`Password`,`Email`,`FirstName`,`LastName`,`Active`,`IsAdmin`) VALUES ('carl','password','cprg352+carl@gmail.com','Carl','Junior',1,0);
-INSERT INTO `users` (`Username`,`Password`,`Email`,`FirstName`,`LastName`,`Active`,`IsAdmin`) VALUES ('don','password','cprg352+don@gmail.com','Don','Douglas',1,0);
+INSERT INTO `users` (`Username`,`Password`,`Email`,`FirstName`,`LastName`,`Active`,`IsAdmin`,`resetPasswordUUID`) VALUES ('admin','password','cprg352+admin@gmail.com','Admin','Admin',1,1,'AAA');
+INSERT INTO `users` (`Username`,`Password`,`Email`,`FirstName`,`LastName`,`Active`,`IsAdmin`,`resetPasswordUUID`) VALUES ('admin2','password','cprg352+admin2@gmail.com','Admin2','Admin2',0,1,'BBB');
+INSERT INTO `users` (`Username`,`Password`,`Email`,`FirstName`,`LastName`,`Active`,`IsAdmin`,`resetPasswordUUID`) VALUES ('anne','password','cprg352+anne@gmail.com','Anne','Annerson',1,0,'CCC');
+INSERT INTO `users` (`Username`,`Password`,`Email`,`FirstName`,`LastName`,`Active`,`IsAdmin`,`resetPasswordUUID`) VALUES ('barb','password','cprg352+barb@gmail.com','Barb','Barber',0,0,'DDD');
+INSERT INTO `users` (`Username`,`Password`,`Email`,`FirstName`,`LastName`,`Active`,`IsAdmin`,`resetPasswordUUID`) VALUES ('carl','password','cprg352+carl@gmail.com','Carl','Junior',1,0,'EEE');
+INSERT INTO `users` (`Username`,`Password`,`Email`,`FirstName`,`LastName`,`Active`,`IsAdmin`,`resetPasswordUUID`) VALUES ('don','password','cprg352+don@gmail.com','Don','Douglas',1,0,'FFF');
 
 INSERT INTO `items` (`Category`,`ItemName`,`Price`,`Owner`) VALUES (1,'blender',29.99,'anne');
 INSERT INTO `items` (`Category`,`ItemName`,`Price`,`Owner`) VALUES (1,'toaster',19.99,'anne');

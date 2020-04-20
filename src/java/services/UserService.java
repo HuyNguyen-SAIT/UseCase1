@@ -3,6 +3,7 @@ package services;
 import dataaccess.UserDB;
 import domain.User;
 import java.util.List;
+import java.util.UUID;
 
 public class UserService {
 
@@ -74,6 +75,8 @@ public class UserService {
         user.setEmail(email);
         user.setActive(true);
         user.setIsAdmin(false);
+        String uuid = UUID.randomUUID().toString();
+        user.setResetPasswordUUID(uuid);
         return userDB.insert(user);
     }
     public int insert(User insertUser) throws Exception {

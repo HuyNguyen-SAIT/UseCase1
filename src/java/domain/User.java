@@ -35,7 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "User.findByFirstName", query = "SELECT u FROM User u WHERE u.firstName = :firstName")
     , @NamedQuery(name = "User.findByLastName", query = "SELECT u FROM User u WHERE u.lastName = :lastName")
     , @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.active = :active")
-    , @NamedQuery(name = "User.findByIsAdmin", query = "SELECT u FROM User u WHERE u.isAdmin = :isAdmin")})
+    , @NamedQuery(name = "User.findByIsAdmin", query = "SELECT u FROM User u WHERE u.isAdmin = :isAdmin")
+    , @NamedQuery(name = "User.findByResetPasswordUUID", query = "SELECT u FROM User u WHERE u.resetPasswordUUID = :resetPasswordUUID")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -61,6 +62,8 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "IsAdmin")
     private boolean isAdmin;
+    @Column(name = "resetPasswordUUID")
+    private String resetPasswordUUID;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
     private List<Item> itemList;
 
@@ -69,11 +72,6 @@ public class User implements Serializable {
 
     public User(String username) {
         this.username = username;
-    }
-    
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
     }
 
     public User(String username, String password, String email, String firstName, String lastName, boolean active, boolean isAdmin) {
@@ -84,6 +82,12 @@ public class User implements Serializable {
         this.lastName = lastName;
         this.active = active;
         this.isAdmin = isAdmin;
+    }
+
+    public User(String username, String password) {
+        //To change body of generated methods, choose Tools | Templates.
+        this.username = username;
+        this.password = password;
     }
 
     public String getUsername() {
@@ -140,6 +144,14 @@ public class User implements Serializable {
 
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+    public String getResetPasswordUUID() {
+        return resetPasswordUUID;
+    }
+
+    public void setResetPasswordUUID(String resetPasswordUUID) {
+        this.resetPasswordUUID = resetPasswordUUID;
     }
 
     @XmlTransient

@@ -24,10 +24,13 @@
             
                 <tr>
                     <td>
-                        Username:   <span class="red" id="username_message"></span>
+                        Username:   
                     </td>
                     <td>
                         <input type="text" required name="username" id="username" value="${usernameReg}">
+                    </td>
+                    <td>
+                        <span class="red" id="username_message"></span>
                     </td>
                 </tr>
                 <tr>

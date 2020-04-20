@@ -24,10 +24,6 @@ $(document).ready(function() {
            document.getElementById("modify").value=selectedCate;
    });
 });
-$('[lang="es"]').hide();
 
-$('#switch-lang').click(function() {
-  $('[lang="es"]').toggle();
-  $('[lang="en"]').toggle();
 });
-});
+

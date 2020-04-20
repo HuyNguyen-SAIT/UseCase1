@@ -8,8 +8,6 @@ package dataaccess;
 import database.DBUtil;
 import database.HomeInventoryDBException;
 import domain.Category;
-import domain.Item;
-import domain.User;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;

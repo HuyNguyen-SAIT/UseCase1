@@ -113,4 +113,29 @@ public class UserDB {
         }
         }
     }
+    public User getByUUID(String uuid) {
+         EntityManager em = DBUtil.getEmFactory().createEntityManager();
+         List<User> users;
+         User user = null;
+         if(uuid==null)
+         {
+             return user;
+         }
+         else
+         {
+         try {
+            users = em.createNamedQuery("User.findAll", User.class).getResultList();
+            for(User a: users)
+            {
+                if(a.getResetPasswordUUID().equals(uuid))
+                {
+                    user =a;
+                }
+            }
+           return user;                
+        } finally {
+            em.close();
+        }
+        }
+    }
 }

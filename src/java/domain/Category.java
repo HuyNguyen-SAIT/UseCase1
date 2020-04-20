@@ -53,15 +53,18 @@ public class Category implements Serializable {
     public Category(Integer categoryID) {
         this.categoryID = categoryID;
     }
-    
-    public Category(String categoryName) {
-        this.categoryName = categoryName;
-    }
 
     public Category(Integer categoryID, String categoryName) {
         this.categoryID = categoryID;
         this.categoryName = categoryName;
     }
+
+    public Category(String categoryName) {
+        //To change body of generated methods, choose Tools | Templates.
+        this.categoryName = categoryName;
+    }
+
+    
 
     public Integer getCategoryID() {
         return categoryID;
