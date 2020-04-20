@@ -253,24 +253,28 @@ public class AdminServlet extends HttpServlet {
             try {
                 selectedUser = udb.getUser(selectUser);
                 selectedUser.setItemList(idb.getAll(selectedUser));
+                session.setAttribute("deletedUser", selectedUser);
                 deleted = udb.delete(selectedUser);
                 if(deleted == 0)
                 {
                     request.setAttribute("message", "Cannot delete admins!");
+                    request.setAttribute("deleted", null);
                 }
                 else
                 {
                     request.setAttribute("message", "Delete successfully!");
+                    request.setAttribute("deleted", "Deleted");
                 }
             } catch (Exception ex) {
                 Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
                 request.setAttribute("message", "Failed to delete!");
+                
             }
                 
                 request.setAttribute("selectUser", null);
                 //request.setAttribute("addorsave", "Add");
                 
-            
+                
             }
         else
                 if(action.equals("Add"))
@@ -387,7 +391,7 @@ public class AdminServlet extends HttpServlet {
             }
                                 }
         else
-                                {
+                         if(action.equals("demote"))       {
                                    String demotingUser = request.getParameter("selectedUser");
             try {
                 User user = udb.getUser(demotingUser);
@@ -397,9 +401,21 @@ public class AdminServlet extends HttpServlet {
                 Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
                 Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
-                request.setAttribute("message", "Failed to promote");
+                request.setAttribute("message", "Failed to demote");
             } 
                                 }
+        else
+                         {
+                            User restoredUser =(User) session.getAttribute("deletedUser");
+            try {
+                uc.insert(restoredUser);
+                request.setAttribute("message", "User restored successfully!");
+                request.setAttribute("deleted", null);
+                request.setAttribute("deletedUser", null);
+            } catch (Exception ex) {
+                Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                         }
         doGet(request,response);
     }
 

@@ -76,4 +76,16 @@ public class UserService {
         user.setIsAdmin(false);
         return userDB.insert(user);
     }
+    public int insert(User insertUser) throws Exception {
+        List<User>userList = userDB.getAll();
+        for(User user: userList)
+        {
+            if(user.getUsername().equals(insertUser.getUsername()))
+            {
+                return 0;
+            }
+        }
+        
+        return userDB.insert(insertUser);
+    }
 }

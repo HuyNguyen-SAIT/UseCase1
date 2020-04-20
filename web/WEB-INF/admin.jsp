@@ -123,6 +123,14 @@
                  </c:forEach>
         </table>
         
+        <c:if test="${deleted!=null}">
+            <form action="admin" method="POST">
+                    <input type="submit" value="Undo delete">
+                    <input type="hidden" name="action" value="undo">
+                    
+            </form>
+        </c:if>
+        
         <h2>Item Search:</h2>
         <table>
             <tr>
@@ -137,8 +145,6 @@
         <span id="searchResult">-Result will display here-</span>
         
         <h2>View/Modify Category:</h2>
-        
-   
         <form method="POST" action="admin">
             <table>
                 <tr>

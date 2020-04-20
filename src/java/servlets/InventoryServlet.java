@@ -151,6 +151,7 @@ public class InventoryServlet extends HttpServlet {
             try {
                 //List<Item> items = loggedIn.getItemList();
                 Item deletedItem = idb.getItem(selectedID);
+                session.setAttribute("deletedItem", deletedItem);
                 //items.remove(deletedItem);
                 ic.itemDeleteFilter(loggedIn,deletedItem);
                 
@@ -159,6 +160,7 @@ public class InventoryServlet extends HttpServlet {
                 //loggedIn.setItemList(items);
                 //List<Item> itemlist = loggedIn.getItemList();
                 request.setAttribute("invalidItem", "Deleted successfully!");
+                request.setAttribute("deleted", "Deleted");
             } catch (HomeInventoryDBException ex) {
                 Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
                 request.setAttribute("invalidItem", "Failed to delete!");
@@ -239,7 +241,8 @@ public class InventoryServlet extends HttpServlet {
             }
          }
                 
-         else{
+         else
+                    if(action.equals("Add")){
        
         double itemPrice =0;
             String categoryName = request.getParameter("type");
@@ -266,6 +269,18 @@ public class InventoryServlet extends HttpServlet {
             request.setAttribute("invalidItem", "Added successfully!");
             
         }
+        else
+                    {
+                        Item restoredItem = (Item) session.getAttribute("deletedItem");
+            try {
+                ic.insertItemFilter(loggedIn, restoredItem);
+                request.setAttribute("invalidItem", "Item restored successfully!");
+                session.setAttribute("deletedItem", null);
+                request.setAttribute("deleted", null);
+            } catch (HomeInventoryDBException ex) {
+                Logger.getLogger(InventoryServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                    }
 
 //        User newLoggedIn = new User();
 //        try {

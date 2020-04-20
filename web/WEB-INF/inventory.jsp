@@ -87,7 +87,12 @@
                 </tbody>
             </c:forEach>
    </table>
-    
+    <c:if test="${deleted!=null}">
+        <form action="inventory" method="POST">
+            <input type="submit" value="Undo delete"> 
+            <input type="hidden" name="action" value="undo">
+        </form>
+    </c:if>
 
     
     <h2>${addorsave} Item</h2>
