@@ -13,6 +13,14 @@
         <title>Login</title>
     </head>
     <body>
+        <button id="switch-lang">Switch Language</button>
+         
+        <h1><span lang="en">Hello</span> <span lang="es">Hola</span></h1>
+
+        <p lang="en">I really enjoy coding.</p>
+
+        <p lang="es">Me gusta mucho la codificación.</p>
+        
         <p class="red">${errorMessage}</p>
         <h1>Home Inventory</h1>
         <h2>Login</h2>
