@@ -87,6 +87,14 @@ public class ResetPasswordServlet extends HttpServlet {
                 User user = udb.getUser((String)session.getAttribute("unactivatedUser"));
                 ac.activateAccount(user);
                 request.setAttribute("message", "Account activated successfully!");
+                String subject = "Welcome "+user.getFirstName()+ " "+user.getLastName();
+                String template = getServletContext().getRealPath("/WEB-INF") + "/emailtemplates/welcome2.html";
+                HashMap<String, String> tags = new HashMap<>();
+                tags.put("firstname", user.getFirstName());
+                tags.put("lastname", user.getLastName());
+                tags.put("username", user.getUsername());
+                //tags.put("link", ac.resetPassword(request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/reset?action=new"));
+                GmailService.sendMail(user.getEmail(), subject, template, tags);
                 getServletContext().getRequestDispatcher("/WEB-INF/welcomenewuser.jsp").forward(request, response);
             } catch (HomeInventoryDBException ex) {
                 Logger.getLogger(ResetPasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
