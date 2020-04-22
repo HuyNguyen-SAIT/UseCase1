@@ -1,5 +1,6 @@
 $(document).ready(function() {
    document.getElementById("modifyCateName").readOnly = true;
+   document.getElementById("modifyCateName").className = "dark";
    $("#username").blur(function() {
        $.get("register?action=checkUsername&username=" + $("#username").val(), function(response) {
            document.getElementById("username_message").innerHTML = response;
@@ -24,6 +25,7 @@ $(document).ready(function() {
            document.getElementById("modifyCateName").value=selectedCate;
            document.getElementById("modify").value=selectedCate;
            document.getElementById("modifyCateName").readOnly = false;
+           document.getElementById("modifyCateName").className = null;
    });
 });
 
