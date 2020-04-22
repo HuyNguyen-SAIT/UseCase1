@@ -1,4 +1,5 @@
 $(document).ready(function() {
+   document.getElementById("modifyCateName").readOnly = true;
    $("#username").blur(function() {
        $.get("register?action=checkUsername&username=" + $("#username").val(), function(response) {
            document.getElementById("username_message").innerHTML = response;
@@ -22,6 +23,7 @@ $(document).ready(function() {
            var selectedCate = chosenCate.options[chosenCate.selectedIndex].text;
            document.getElementById("modifyCateName").value=selectedCate;
            document.getElementById("modify").value=selectedCate;
+           document.getElementById("modifyCateName").readOnly = false;
    });
 });
 

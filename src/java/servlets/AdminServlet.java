@@ -110,10 +110,12 @@ public class AdminServlet extends HttpServlet {
         else
                 if(action.equals("EditCategory"))
             {
+                
                 String save = request.getParameter("addorsave2");
                 String save2 = request.getParameter("doneorview");
                 request.setAttribute("addorsave2", save);
                 request.setAttribute("doneorview", save2);
+                
             }
         else
                     if(action.equals("checkItem"))
@@ -357,8 +359,10 @@ public class AdminServlet extends HttpServlet {
                             String newCate = request.getParameter("modifyCateName");
                             if(oldCate == null || oldCate.equals(""))
                             {
-                               
+                               request.setAttribute("message", "Please choose a category first");
                             }
+                            else
+                                
                             
             try {
                 int result = cs.updateCategory(oldCate, newCate);

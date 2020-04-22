@@ -162,6 +162,7 @@
                     </td>
                     <td>
                          <input type="text" id="modifyCateName" required name="modifyCateName" value="${caName}">
+                              
                     </td>
                     <td>
                          <input type="submit" value="Save">
